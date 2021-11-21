@@ -1,0 +1,25 @@
+{
+  "name": "secret-santa",
+  "version": "1.0.0",
+  "description": "A tool to randomize a list of people and then generate personal links that reveal their secret Santa",
+  "main": " ",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --config webpack.common.js "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poster983/secret-santa.git"
+  },
+  "author": "Joseph Hassell",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/poster983/secret-santa/issues"
+  },
+  "homepage": "https://github.com/poster983/secret-santa#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "webpack": "^5.64.2",
+    "webpack-cli": "^4.9.1"
+  }
+}
