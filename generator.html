@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Santa Generator</title>
+
     <script defer src="./dist/generator.bundle.js"></script>
 </head>
 <body>
@@ -13,15 +14,26 @@
     <textarea id="name-list"></textarea>
 
     <div>
-        <input id="sep-comma" name="sep" type="radio" label="Comma separated" checked/>
+        <input id="sep-comma" name="sep" type="radio" value="comma" label="Comma separated" />
         <label for="sep-comma">Comma separated</label>
         <br>
-        <input id="sep-nl" name="sep" type="radio" label="New Line separated"/>
+        <input id="sep-nl" name="sep" type="radio" value="newline" label="New Line separated" checked/>
         <label for="sep-nl">New Line separated</label>
 
     </div>
+    <h4>Special Rules</h4>
+    <textarea id="special-rules" placeholder="Example: The gift price limit is $40"></textarea>
     <br>
     <button id="submit">Generate Links</button> 
+
+    <br>
+    <br>
+    <input type="checkbox" name="show-recipients" value="show" label="Show recipients" id="show-recipients"/>
+    <label for="show-recipients">Show recipients</label>
+    <table id="table">
+        
+    </table>
+
     <p id="log"></p>
 
     

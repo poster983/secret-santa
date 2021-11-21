@@ -1,5 +1,6 @@
 
 // const xlsx = require("xlsx");
+import {Base64, uuidv4} from "./common"
 
 console.log("Hello!")
 
@@ -7,6 +8,13 @@ console.log("Hello!")
 const nameList = document.getElementById("name-list")
 const generateButton = document.getElementById("submit")
 const log = document.getElementById("log")
+const table = document.getElementById("table");
+const specialRules = document.getElementById("special-rules");
+const showRecipients = document.getElementById("show-recipients")
+
+
+const mainPage = window.location.href.replace("/generator.html", "")
+
 
 
 let print = (...args) => {
@@ -25,8 +33,39 @@ let error = (...args) => {
 }
 
 
+let tableGenerate = (table, headers, data, id=uuidv4()) => {
+
+    table.innerHTML = ""
+    //generate headers
+    const tr = document.createElement("tr");
+
+    headers.forEach((element, index) => {
+        const th = document.createElement("th");
+        th.innerHTML = element;
+        tr.appendChild(th)
+    });
+
+    table.appendChild(tr)
+    
+    //generate body
+
+    data.forEach((row) => {
+        const tr = document.createElement("tr");
+        row.forEach((item, index) => {
+            const td = document.createElement("td");
+            td.classList.add(`${id}-item-${index}}`)
+            td.innerHTML = item;
+            tr.appendChild(td)
+        })
+        table.appendChild(tr)
+    })
+
+}
+
+let showReciprientsFunct;
+
 let generate = () => {
-    //let sep = document.querySelector('input[name="sep"]:checked').value;
+    let sep = document.querySelector('input[name="sep"]:checked').value;
     //let sep = Array.from(document.getElementsByName("sep")).find(r => r.checked).value;
     let names = nameList.value
     if(nameList.value == "") {
@@ -34,12 +73,63 @@ let generate = () => {
         return
     }
 
-    names = nameList.value.split(",");
+    
+    //split string
+    if(sep === "newline") {
+        names = nameList.value.split("\n");
+    } else {
+        names = nameList.value.split(",");
+    }
 
-    print(generatePairs(names))
+   
+    if(names.length < 2) {
+        error("Must have at least 2 names")
+        return
+    }
 
+    //clean up text and generate links
+    names = names.map((name)=> {
+        return name.trim();
+    })
+
+
+    
+    const pairs = generatePairs(names);
+
+    const pairLink = pairs.map((pair) => {
+        const data = {
+            recipient: pair[1],
+            specialRules: (specialRules.value=="")?null:specialRules.value
+        }
+
+        const link = `${mainPage}?data=${encodeURIComponent(Base64.encode(JSON.stringify(data)))}` 
+
+
+        return [pair[0], link, pair[1]]
+    })
+
+    print(pairLink)
+    const id = "output"
+    tableGenerate(table, ["Santa", "Santa's Link", "Recipient"], pairLink, id)
+
+    //setup show reciprients
+    if(showReciprientsFunct) {
+        showRecipients.removeEventListener("change", showReciprientsFunct)
+    }
+    
+
+    showReciprientsFunct = () => {
+        print("hi")
+        const elms = document.querySelectorAll(`.${id}-item-2`)
+        elms.forEach(elm=>{
+            elm.style.display = (showRecipients.checked)?null:"none"
+        })
+    }
+    showRecipients.addEventListener("change", showReciprientsFunct)
     //print(sep)
 }
+
+
 
 let shuffle = (array) => {
     return array
@@ -49,49 +139,16 @@ let shuffle = (array) => {
 }
 
 let generatePairs = (people) => {
-    // people = shuffle(people)
-    // if (people.length < 2) { return []; }
-    // var first = people[0],
-    // rest  = people.slice(1),
-    // pairs = rest.map(function (x) { return [first, x]; });
-    // return pairs.concat(generatePairs(rest));
     let shuffled = shuffle(people)
-
-
-
-    let pairs = people.map((value, index) => {
-        return [value, shuffled[index]]
-    })
-
-    //fix same pairs
-    let same = []
-    pairs.forEach((pair, index) => {
-        if(pair[0] == pair[1]) {
-            same.push(index)
+    let pairs = shuffled.map((value, index) => {
+        if(!shuffled[index+1]) { //end edge case
+            return [value, shuffled[0]]
         }
+        return [value, shuffled[index+1]]
     })
 
-    if(same.length == 1) {
-        let tmp = pairs[same[0]][1]
-        if(pairs[same[0]+1] != undefined) {
-            pairs[same[0]][1] = pairs[same[0]+1][1]
-            pairs[same[0]+1][1] = tmp 
-        } else if(pairs[same[0]-1] != undefined){
-            pairs[same[0]][1] = pairs[same[0]-1][1]
-            pairs[same[0]-1][1] = tmp 
-        } else {
-            error("Not enough people to have unique pairs");
-            return 
-        }
-    } else if (same.length > 1) {
-        same,forEach((sameInd, index) => {
+    return pairs
 
-        })
-    }
-
-    same.forEach((pairInd) => {
-
-    })
 }
 
 

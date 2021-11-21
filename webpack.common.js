@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const path = require("path");
 
 module.exports = {
+  devtool: 'inline-source-map',
   // Where webpack looks to start building the bundle
   entry: {
       generator: path.resolve(__dirname, "src", "generator.js"),
