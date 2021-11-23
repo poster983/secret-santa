@@ -108,7 +108,7 @@ let generate = () => {
             specialRules: (specialRules.value=="")?null:specialRules.value
         }
 
-        const link = `${mainPage}?data=${encodeURIComponent(Base64.encode(JSON.stringify(data)))}` 
+        const link = `${mainPage}?santa=${encodeURIComponent(pair[0])}&data=${encodeURIComponent(Base64.encode(JSON.stringify(data)))}` 
 
         const span = document.createElement("span");
         span.onclick = ()=>{

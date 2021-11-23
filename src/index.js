@@ -25,6 +25,13 @@ const urlSearchParams = new URLSearchParams(window.location.search)
 let showRules = true;
 if(urlSearchParams.has("data")) {
     console.log(Base64.decode(decodeURIComponent(urlSearchParams.get("data"))))
+    if(urlSearchParams.has("santa")) {
+        let titleTop = document.createElement("span")
+        titleTop.innerText = `Hey ${decodeURIComponent(urlSearchParams.get("santa"))},`
+        let br = document.createElement("br");
+        title.prepend(br)
+        title.prepend(titleTop)
+    }
     try {
         let data = JSON.parse(Base64.decode(decodeURIComponent(urlSearchParams.get("data"))))
         console.log(data)
@@ -61,11 +68,12 @@ let giftOpen = anime.timeline({
     .add({
         targets: '#box-top',
         translateY: -800,
+        // rotateZ: 15,
     })
     .add({
         targets: '#box-bottom',
         translateY: 800,
-        rotateX: 90,
+        rotateZ: 50,
     })
     .add({
         targets: ['#box-bottom', '#box-top'],
