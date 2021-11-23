@@ -11,7 +11,8 @@ body {
     width: 100vw;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: absolute;
+    top: 0px
 
 }
 
