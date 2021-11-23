@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/poster983/secret-santa#readme",
   "devDependencies": {
+    "animejs": "^3.2.1",
     "clean-webpack-plugin": "^4.0.0",
+    "js-base64": "^3.7.2",
+    "snowfall.js": "^1.0.1",
     "webpack": "^5.64.2",
     "webpack-cli": "^4.9.1"
   }

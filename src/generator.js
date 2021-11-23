@@ -1,6 +1,7 @@
 
 // const xlsx = require("xlsx");
-import {Base64, uuidv4} from "./common"
+import {uuidv4} from "./common"
+import { Base64 } from 'js-base64';
 
 console.log("Hello!")
 
@@ -53,8 +54,13 @@ let tableGenerate = (table, headers, data, id=uuidv4()) => {
         const tr = document.createElement("tr");
         row.forEach((item, index) => {
             const td = document.createElement("td");
-            td.classList.add(`${id}-item-${index}}`)
-            td.innerHTML = item;
+            td.classList.add(`${id}-item-${index}`)
+            if(typeof item == "object") {
+                td.appendChild(item);
+            } else {
+                td.innerHTML = item;
+            }
+            
             tr.appendChild(td)
         })
         table.appendChild(tr)
@@ -104,13 +110,18 @@ let generate = () => {
 
         const link = `${mainPage}?data=${encodeURIComponent(Base64.encode(JSON.stringify(data)))}` 
 
+        const span = document.createElement("span");
+        span.onclick = ()=>{
+            navigator.clipboard.writeText(link);
+        }
+        span.innerHTML = link
 
-        return [pair[0], link, pair[1]]
+        return [pair[0], span, pair[1]]
     })
 
-    print(pairLink)
+
     const id = "output"
-    tableGenerate(table, ["Santa", "Santa's Link", "Recipient"], pairLink, id)
+    tableGenerate(table, ["Santa", "Santa's Link (click to copy)", "Recipient"], pairLink, id)
 
     //setup show reciprients
     if(showReciprientsFunct) {
@@ -119,12 +130,13 @@ let generate = () => {
     
 
     showReciprientsFunct = () => {
-        print("hi")
         const elms = document.querySelectorAll(`.${id}-item-2`)
         elms.forEach(elm=>{
+
             elm.style.display = (showRecipients.checked)?null:"none"
         })
     }
+    showReciprientsFunct()
     showRecipients.addEventListener("change", showReciprientsFunct)
     //print(sep)
 }

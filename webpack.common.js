@@ -8,6 +8,7 @@ module.exports = {
   devtool: 'inline-source-map',
   // Where webpack looks to start building the bundle
   entry: {
+      index: path.resolve(__dirname, "src", "index.js"),
       generator: path.resolve(__dirname, "src", "generator.js"),
   },
 

@@ -5,13 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Santa Generator</title>
-
+    <style>
+        .output-item-1 {
+            cursor: grabbing;
+        }
+    </style>
     <script defer src="./dist/generator.bundle.js"></script>
 </head>
 <body>
     <h1>Generate Secret Santa Links</h1>
     <h4>Name List</h4>
-    <textarea id="name-list"></textarea>
+    <textarea placeholder="joey, sam, tanny" id="name-list"></textarea>
 
     <div>
         <input id="sep-comma" name="sep" type="radio" value="comma" label="Comma separated" />
