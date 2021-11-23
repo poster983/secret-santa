@@ -100,7 +100,9 @@ let generate = () => {
 
 
     
-    const pairs = generatePairs(names);
+    let pairs = generatePairs(names);
+
+    pairs = shuffle(pairs)
 
     const pairLink = pairs.map((pair) => {
         const data = {
